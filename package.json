@@ -1,0 +1,24 @@
+{
+  "name": "metainfo2dts",
+  "version": "1.0.0",
+  "description": "create d.ts file(s) from nexacro metainfo file(s)",
+  "main": "bin/index.js",
+  "bin": {
+    "nexacro-meta2dts": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nexacro",
+    "metainfo",
+    "typescript"
+  ],
+  "author": "TOBESOFT",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^9.0.0",
+    "glob": "^7.2.0",
+    "xml2js": "^0.4.23"
+  }
+}
