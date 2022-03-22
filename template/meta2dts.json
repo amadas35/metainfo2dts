@@ -1,35 +1,40 @@
 {
-    "name": "",
-    "description": "",
     "source": {
         "files": "",
-        "path": "./metainfo/KOR/"
+        "path": "",
+        "routePattern": {
+            "origin": "metainfo/",
+            "route": "metainfo/*/",
+            "globOption": {
+                "ignore": []
+            }
+        }
     },
     "output": {
         "path": "",
         "referenceTypes": [],
-        "usejsdoc": true,
-        "validationMetainfo": false,
-        
-        "tsconfig": {
-            "compilerOptions": {
-                "target": "es3",
-                "module": "es2015",
-                "noImplicitAny": true,
-                "noImplicitThis": true,
-                "strictFunctionTypes": true,
-                "strictNullChecks": true,
-                "baseUrl": "../",
-                "typeRoots": [
-                    "../"
-                ],
-                "types": [],
-                "noEmit": true,
-                "forceConsistentCasingInFileNames": true
-            },
-            "files": [
-                "index.d.ts"
-            ]
-        }
+        "noJsDocComment": false,
+        "emitFlat": true,
+        "validationMetainfo": false
+    },
+    "tsconfig": {
+        "compilerOptions": {
+            "target": "es3",
+            "module": "es2015",
+            "noImplicitAny": true,
+            "noImplicitThis": true,
+            "strictFunctionTypes": true,
+            "strictNullChecks": true,
+            "baseUrl": "../",
+            "typeRoots": [
+                "../"
+            ],
+            "types": [],
+            "noEmit": true,
+            "forceConsistentCasingInFileNames": true
+        },
+        "files": [
+            "index.d.ts"
+        ]
     }
 }

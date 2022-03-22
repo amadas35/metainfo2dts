@@ -1,0 +1,43 @@
+{
+    "source": {
+        "files": "Grid.json",
+        "path": "",
+        "routePattern": {
+            "origin": "metainfo/",
+            "route": "metainfo/ENG/",
+            "globOption": {
+                "ignore": [
+                    "**/CHN/**", 
+                    "**/JPN/**"
+                ]
+            }
+        }
+    },
+    "output": {
+        "path": "../@types/nexacro-grid/",
+        "referenceTypes": ["../nexacro", "../nexacro-compbase", "../nexacro-comcomp"],
+        "noJsDocComment": false,
+        "emitFlat": true,
+        "validationMetainfo": false
+    },
+    "tsconfig": {
+        "compilerOptions": {
+            "target": "es3",
+            "module": "es2015",
+            "noImplicitAny": true,
+            "noImplicitThis": true,
+            "strictFunctionTypes": true,
+            "strictNullChecks": true,
+            "baseUrl": "../",
+            "typeRoots": [
+                "../"
+            ],
+            "types": [],
+            "noEmit": true,
+            "forceConsistentCasingInFileNames": true
+        },
+        "files": [
+            "index.d.ts"
+        ]
+    }
+}

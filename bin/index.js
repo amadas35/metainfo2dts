@@ -6,47 +6,58 @@ const path = require("path");
 const fs = require('fs');
 const readline = require('readline');
 
-const gen2dts = require('./gen2dts.js');
+const gen2dts = require('../lib/gen2dts.js');
+const makeTypes = require('../lib/make-types.js');
 
 const cwd = process.cwd();
 const configFile = path.join(cwd, 'meta2dts.json');
 
 program
     .version(packageJson.version)
-    .argument('[file...]', 'Input metainfo files or nexacro module json file. (allow glob syntax)')
+    .argument('<file...>', 'Input metainfo files or nexacro module json file. (allow glob syntax)')
     .option('-o, --output <DIRECTORY>', 'Specify output path.')
+    .option('--omit', 'omit jsdoc comment.', false)
+    .option('-r, --route <ORIGIN:ROUTE>', 'Route path of metainfo directory. (Ignore if the file is not a module file)', 'metainfo/:metainfo/*/')
+    .option('--emit-flat', 'flatten the output path to the root.', false)
     .action((files, opts) => {
 
-        let outdir;
+        let srcfile, outdir;
         if (opts.output) {
             outdir = path.resolve(opts.output);
         }
 
-        if (files) {
-            
-            if (Array.isArray(files)) {
-                files.forEach((file, idx) => {
-                    let srcfile;
+        let gen_opts = {};
+        if (opts.omit) {
+            gen_opts.noJsDocComment = true;
+        }
 
-                    if (path.isAbsolute(file)) {
-                        srcfile = file;
-                    }
-                    else {
-                        srcfile = path.resolve(cwd, file);
-                    }
-                    gen2dts(idx, `generate ${file}`, srcfile, outdir);
-                });
+        if (opts.route) {
+            const routeVal = opts.route.split(':');
+            if (routeVal.length != 2) {
+                throw new Error(`Wrong argument. ('-r, --route <ORIGIN:ROUTE>')`);
             }
-            else if (typeof files == 'string') {
-                if (path.isAbsolute(files)) {
-                    srcfile = files;
-                }
-                else {
-                    srcfile = path.resolve(cwd, files);
-                }
-                gen2dts(0, `generate ${files}`, srcfile, outdir);
+
+            const origin = routeVal[0].replace(/\'/g, '').replace(/\"/g, '').trim();
+            const route = routeVal[1].replace(/\'/g, '').replace(/\"/g, '').trim();
+            if (origin) {
+                gen_opts.routePattern = { origin:origin , route: route };
             }
         }
+
+        if (opts.emitFlat) {
+            gen_opts.emitFlat = opts.emitFlat;
+        }
+
+        files.forEach((file, idx) => {
+            if (path.isAbsolute(file)) {
+                srcfile = file;
+            }
+            else {
+                srcfile = path.resolve(cwd, file);
+            }
+            
+            gen2dts.generateDeclaration(`generate '${file}'`, idx+1, srcfile, outdir, gen_opts);
+        });
     });
 
 program
@@ -106,8 +117,38 @@ program
     .argument('[file...]', 'Input meta2dts.json files or a folder with a meta2dts.json.')
     .option('-o, --output <DIRECTORY>', 'Specify output path.')
     .option('--reference <TYPES>', 'Specify dependency declaration packages. (only for build project)')
-    .action((arguments, options) => {
-        //console.log(arguments, options ? options.toString() : '');
+    .action((files, opts) => {
+        // create Types Module
+
+        let outdir;
+        if (opts.output) {
+            outdir = path.resolve(opts.output);
+        }
+
+        if (files && files.length > 0) {
+            if (Array.isArray(files)) {
+                files.forEach((file, idx) => {
+                    let srcfile;
+
+                    if (path.isAbsolute(file)) {
+                        srcfile = file;
+                    }
+                    else {
+                        srcfile = path.resolve(cwd, file);
+                    }
+                    makeTypes(`build '${file}'`, idx+1, srcfile, outdir);
+                });
+            }
+        }
+        else {
+            const srcfile = path.resolve('meta2dts.json');
+            if (!fs.existsSync(srcfile)) {
+                throw new Error(`Missing file name or could not be found: 'meta2dts.json'.`);
+            }
+            else {
+                makeTypes(`build '${srcfile}'`, 1, srcfile, outdir);
+            }
+        }
     });
 
 

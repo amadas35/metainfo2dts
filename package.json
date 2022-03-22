@@ -7,7 +7,14 @@
     "nexacro-meta2dts": "./bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bin/index.js",
+    "build": "pkg . --out-path bin --targets node16-win-x64"
+  },
+  "pkg": {
+    "scripts": "lib/*.js",
+    "assets": "template/**/*",
+    "targets": "node16-win"
   },
   "keywords": [
     "nexacro",
@@ -20,5 +27,8 @@
     "commander": "^9.0.0",
     "glob": "^7.2.0",
     "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "pkg": "^5.5.2"
   }
 }

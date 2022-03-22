@@ -2,7 +2,9 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.8
 
-${ref_paths}
+${ref_types ? ref_types.map((types) => `/// <reference types="${types}" />`).join('\n') : ''}
+
+${ref_paths ? ref_paths.map((path) => `/// <reference path="${path}" />`).join('\n') : ''}
 
 interface nexacroGetSetter {
     (name: string): Function|null;
