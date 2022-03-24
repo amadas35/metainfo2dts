@@ -115,14 +115,14 @@ program
     .command('build')
     .description('Build project given the path to its configuration file, or to a folder with a meta2dts.json.')
     .argument('[file...]', 'Input meta2dts.json files or a folder with a meta2dts.json.')
-    .option('-o, --output <DIRECTORY>', 'Specify output path.')
+    .option('-d, --dest <DIRECTORY>', 'Specify output path.')
     .option('--reference <TYPES>', 'Specify dependency declaration packages. (only for build project)')
     .action((files, opts) => {
         // create Types Module
 
         let outdir;
-        if (opts.output) {
-            outdir = path.resolve(opts.output);
+        if (opts.dest) {
+            outdir = path.resolve(opts.dest);
         }
 
         if (files && files.length > 0) {
@@ -155,5 +155,5 @@ program
 
 //console.log(process.argv.slice(1).join(' '));
 
-program.parse();
+program.parse(process.argv);
 
