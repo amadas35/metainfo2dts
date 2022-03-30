@@ -24,6 +24,8 @@ declare global {
     interface Document {
         documentMode?: number;
     }
+
+    function trace(...args: any[]): void;
 }
 
 export as namespace nexacro;

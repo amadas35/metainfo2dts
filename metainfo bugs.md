@@ -92,3 +92,11 @@
 - GraphicsEllipse.info
 	- height' 속성만 두번 정의되어 있음. TOPS 확인결과, width 속성 정의에 이름이 `height`로 되어 있음
 
+#### metainfo 에 정의 없음
+- 'trace' / 'alert' : global api.
+	```
+	declare global {
+		function trace(...args: any[]): void;
+    	function alert(...args: any[]): void;
+	}
+	```
